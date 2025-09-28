@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendario de Avistamiento y Eventos</title>
+  <link href="assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="topbar py-2">
+    <div class="container-fluid">
+      <div class="d-flex align-items-center gap-3">
+        <a href="index.html" class="fw-bold d-flex align-items-center gap-2" style="color:#2fbf71"><span class="fs-4">🕊️</span> <span>AviTurismo Nicaragua</span></a>
+        <form class="flex-grow-1 d-none d-md-block" onsubmit="return false;">
+          <input id="topSearch" class="form-control" placeholder="Buscar aves, reservas o guías...">
+        </form>
+        <a class="btn btn-success" href="reservar.html">Observación</a>
+        <a class="d-flex align-items-center" href="perfil.html">
+          <div class="rounded" style="background:#dff4e9;width:36px;height:36px;display:flex;align-items:center;justify-content:center">CM</div>
+          <span class="ms-2 small" id="userBadge">Invitado</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <aside class="col-lg-2 col-md-3 sidebar">
+        <nav class="nav flex-column gap-1">
+          <a class="nav-link" href="index.html">🏠 Inicio</a>
+          <a class="nav-link" href="catalogo.html">🦜 Catálogo de Aves</a>
+          <a class="nav-link" href="reservas.html">🏞️ Reservas Naturales</a>
+          <a class="nav-link" href="calendario.html">🗓️ Calendario de Eventos</a>
+          <a class="nav-link" href="reservar.html">🧭 Reservar Visitas</a>
+          <a class="nav-link" href="educativo.html">📘 Educación y Conservación</a>
+          <a class="nav-link" href="mapa.html">🗺️ Mapa Interactivo</a>
+          <a class="nav-link" href="perfil.html">👤 Mi Perfil</a>
+        </nav>
+      </aside>
+      <main class="col-lg-10 col-md-9 p-3">
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Calendario con notas - AviTurismo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #ffffff;
+    --card: #fff;
+    --accent: #2fbf71;
+    --muted: #6b7280;
+    --border: #e6e6e6;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: "Inter", system-ui, Arial, sans-serif;
+    background: var(--bg);
+    color: #111827;
+    padding:18px;
+  }
+
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+  }
+
+  header{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+  }
+  header h1{ font-size:20px; margin:0; display:flex; gap:8px; align-items:center; }
+  .controls{ display:flex; gap:8px; align-items:center; }
+
+  button{
+    border:1px solid var(--border);
+    background:white;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+  }
+  button.primary{ background:var(--accent); color:white; border-color:transparent; }
+  .month-label{ font-weight:600; min-width:220px; text-align:center; }
+
+  /* Calendario */
+  .calendar{
+    background:var(--card);
+    border-radius:12px;
+    padding:12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    border:1px solid var(--border);
+  }
+
+  .weekdays{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+    margin-bottom:6px;
+  }
+  .weekday{
+    text-align:center;
+    font-size:13px;
+    color:var(--muted);
+    padding:6px 4px;
+  }
+
+  .days{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:8px;
+  }
+
+  /* Cada celda */
+  .day{
+    min-height:110px;         /* altura mínima de la celda */
+    background:#fafafa;
+    border-radius:8px;
+    border:1px solid #f0f0f0;
+    padding:8px;              /* margen interior de la celda (sobre todo para que el contenido no toque los bordes) */
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    position:relative;
+    overflow:hidden;          /* mantiene el contenido dentro de la celda */
+  }
+
+  .day.dim{ opacity:0.45; background:#fff; } /* días de otros meses */
+
+  .day-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:8px;
+  }
+
+  .date-num{
+    font-weight:700;
+    font-size:14px;
+    color:#111;
+    background:transparent;
+  }
+
+  .add-btn{
+    margin-left:auto;
+    font-size:12px;
+    padding:4px 8px;
+    border-radius:6px;
+  }
+
+  /* contenedor donde va la nota — aquí respetamos padding y aplicamos overflow */
+  .notes{
+    flex:1 1 auto;
+    /* dejamos una altura máxima para que al exceder aparezca scroll dentro del área de nota sin romper márgenes */
+    max-height: calc(110px - 40px); /* calculado en relación a min-height para que haya espacio para la cabecera */
+    overflow:auto;
+    padding:6px;
+  }
+
+  .note{
+    display:block;
+    padding:8px;
+    border-radius:6px;
+    background:#fff;
+    border:1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    white-space:normal;
+    word-wrap:break-word;
+    word-break:break-word;
+    font-size:13px;
+    color:#111;
+  }
+
+  .note small{ display:block; color:var(--muted); margin-top:6px; font-size:12px; }
+
+  /* modal simple */
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background: rgba(0,0,0,0.45);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+  }
+  .modal{
+    background:white;
+    width:min(640px, 95%);
+    border-radius:12px;
+    padding:16px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+  }
+  .modal header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .modal textarea{
+    width:100%;
+    min-height:140px;
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    resize:vertical;
+    font-size:14px;
+    line-height:1.4;
+  }
+
+  .smallmuted{ color:var(--muted); font-size:13px; }
+
+  /* responsive */
+  @media(max-width:720px){
+    .weekday{ font-size:12px; }
+    .day{ min-height:90px; padding:6px; }
+    .month-label{ font-size:14px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🗓️ Calendario de Eventos</h1>
+      <div class="controls">
+        <button id="prevBtn">◀</button>
+        <div class="month-label" id="monthLabel"></div>
+        <button id="nextBtn">▶</button>
+        <button class="primary" id="todayBtn">Hoy</button>
+      </div>
+    </header>
+
+    <main class="calendar" aria-live="polite">
+      <div class="weekdays" id="weekdays">
+        <div class="weekday">Lun</div>
+        <div class="weekday">Mar</div>
+        <div class="weekday">Mié</div>
+        <div class="weekday">Jue</div>
+        <div class="weekday">Vie</div>
+        <div class="weekday">Sáb</div>
+        <div class="weekday">Dom</div>
+      </div>
+
+      <div class="days" id="daysGrid" role="grid" aria-label="Calendario"></div>
+      <p class="smallmuted" style="margin-top:10px">Doble clic en un día o pulsa "+" para añadir/editar la nota. Las notas se guardan localmente en tu navegador.</p>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div id="modalRoot" style="display:none"></div>
+
+<script>
+/* Calendario con notas, guardado en localStorage.
+   Clave localStorage: "calendar_notes_v1"
+*/
+(function(){
+  const locale = 'es-ES';
+  const storageKey = 'calendar_notes_v1';
+  let notes = JSON.parse(localStorage.getItem(storageKey) || '{}');
+
+  // Fecha visible
+  let current = new Date();
+  let year = current.getFullYear();
+  let month = current.getMonth(); // 0-11
+
+  const monthLabel = document.getElementById('monthLabel');
+  const daysGrid = document.getElementById('daysGrid');
+  const modalRoot = document.getElementById('modalRoot');
+
+  document.getElementById('prevBtn').addEventListener('click', ()=>{
+    month--;
+    if(month<0){ month=11; year--; }
+    renderCalendar();
+  });
+  document.getElementById('nextBtn').addEventListener('click', ()=>{
+    month++;
+    if(month>11){ month=0; year++; }
+    renderCalendar();
+  });
+  document.getElementById('todayBtn').addEventListener('click', ()=>{
+    const t = new Date();
+    year = t.getFullYear();
+    month = t.getMonth();
+    renderCalendar();
+  });
+
+  function saveNotes(){ localStorage.setItem(storageKey, JSON.stringify(notes)); }
+
+  function formatKey(d){ // clave YYYY-MM-DD
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    return `${y}-${m}-${dd}`;
+  }
+
+  function renderCalendar(){
+    daysGrid.innerHTML = '';
+    const firstOfMonth = new Date(year, month, 1);
+    const lastOfMonth = new Date(year, month+1, 0);
+    const firstWeekday = (firstOfMonth.getDay() + 6) % 7; // convertir a lun-dom (0=lun)
+    const daysInMonth = lastOfMonth.getDate();
+
+    // etiqueta mes
+    const formatter = new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' });
+    monthLabel.textContent = formatter.format(new Date(year, month, 1)).toUpperCase();
+
+    // calculamos días previos (del mes anterior) para completar la semana
+    const prevMonthLastDay = new Date(year, month, 0).getDate();
+    const totalCells = Math.ceil((firstWeekday + daysInMonth) / 7) * 7;
+
+    for(let i=0;i<totalCells;i++){
+      const cell = document.createElement('div');
+      cell.className = 'day';
+      // índice de día relativo dentro del grid
+      const dayIndex = i - firstWeekday + 1;
+
+      let cellDate;
+      let isOther = false;
+
+      if(i < firstWeekday){
+        // días del mes anterior
+        const dayNum = prevMonthLastDay - (firstWeekday - 1) + i;
+        cellDate = new Date(year, month-1, dayNum);
+        isOther = true;
+      } else if(dayIndex > daysInMonth){
+        // días del siguiente mes
+        const dayNum = dayIndex - daysInMonth;
+        cellDate = new Date(year, month+1, dayNum);
+        isOther = true;
+      } else {
+        cellDate = new Date(year, month, dayIndex);
+      }
+
+      const key = formatKey(cellDate);
+      if(isOther) cell.classList.add('dim');
+
+      // Cabecera (número + botón añadir)
+      const header = document.createElement('div');
+      header.className = 'day-header';
+
+      const number = document.createElement('div');
+      number.className = 'date-num';
+      number.textContent = cellDate.getDate();
+
+      const addBtn = document.createElement('button');
+      addBtn.className = 'add-btn';
+      addBtn.title = 'Añadir / editar nota';
+      addBtn.innerHTML = '+';
+      addBtn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        openModalForDate(cellDate, key);
+      });
+
+      header.appendChild(number);
+      header.appendChild(addBtn);
+
+      // contenedor de notas — importante: tiene padding y overflow para no romper márgenes
+      const notesContainer = document.createElement('div');
+      notesContainer.className = 'notes';
+      // si existe nota, la mostramos
+      if(notes[key]){
+        const noteEl = document.createElement('div');
+        noteEl.className = 'note';
+        noteEl.innerHTML = notes[key].replace(/\n/g,'<br>');
+        notesContainer.appendChild(noteEl);
+      }
+
+      // doble clic en la celda para editar (también captura pulsación)
+      cell.addEventListener('dblclick', ()=> openModalForDate(cellDate, key));
+
+      // soporte para tocar en móvil: pulsación larga (800ms)
+      let pressTimer = null;
+      cell.addEventListener('touchstart', function(e){
+        pressTimer = setTimeout(()=> openModalForDate(cellDate, key), 700);
+      }, {passive:true});
+      cell.addEventListener('touchend', function(){ if(pressTimer) clearTimeout(pressTimer); });
+
+      // añadir elementos a la celda
+      cell.appendChild(header);
+      cell.appendChild(notesContainer);
+
+      // marcar hoy
+      const today = new Date();
+      if(cellDate.toDateString() === today.toDateString()){
+        cell.style.boxShadow = 'inset 0 0 0 2px rgba(47,191,113,0.12)';
+      }
+
+      daysGrid.appendChild(cell);
+    }
+  }
+
+  // Abre modal para editar nota de una fecha
+  function openModalForDate(dateObj, key){
+    modalRoot.innerHTML = '';
+    modalRoot.style.display = 'block';
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop';
+
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+
+    const header = document.createElement('header');
+    const title = document.createElement('div');
+    title.innerHTML = `<strong>${dateObj.toLocaleDateString(locale, { weekday:'long', year:'numeric', month:'long', day:'numeric' })}</strong>`;
+
+    const closeX = document.createElement('button');
+    closeX.textContent = '✕';
+    closeX.addEventListener('click', closeModal);
+
+    header.appendChild(title);
+    header.appendChild(closeX);
+
+    const textarea = document.createElement('textarea');
+    textarea.placeholder = 'Escribe aquí la nota para ese día. Mantén saltos de línea para organización.';
+    textarea.value = notes[key] || '';
+
+    const footer = document.createElement('div');
+    footer.style.display = 'flex';
+    footer.style.justifyContent = 'flex-end';
+    footer.style.gap = '8px';
+    footer.style.marginTop = '10px';
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Eliminar';
+    deleteBtn.addEventListener('click', ()=>{
+      if(confirm('¿Eliminar la nota para este día?')) {
+        delete notes[key];
+        saveNotes();
+        closeModal();
+        renderCalendar();
+      }
+    });
+
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'primary';
+    saveBtn.textContent = 'Guardar';
+    saveBtn.addEventListener('click', ()=>{
+      const text = textarea.value.trim();
+      if(text){
+        notes[key] = text;
+      } else {
+        delete notes[key];
+      }
+      saveNotes();
+      closeModal();
+      renderCalendar();
+    });
+
+    footer.appendChild(deleteBtn);
+    footer.appendChild(saveBtn);
+
+    modal.appendChild(header);
+    modal.appendChild(textarea);
+    modal.appendChild(footer);
+
+    backdrop.appendChild(modal);
+    modalRoot.appendChild(backdrop);
+
+    // cerrar si se hace click fuera del modal
+    backdrop.addEventListener('click', (e)=>{ if(e.target === backdrop) closeModal(); });
+
+    function closeModal(){
+      modalRoot.style.display = 'none';
+      modalRoot.innerHTML = '';
+    }
+
+    textarea.focus();
+  }
+
+  // render inicial
+  renderCalendar();
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Login</title><link href="assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
+</head>
+
+<script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/app.js"></script>
+<script>let rol='Turista'; document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>rol=b.dataset.role); document.getElementById('btnLogin').onclick=()=>{ const email=document.getElementById('email').value||'invitado@example.com'; setUser({nombre:email.split('@')[0], email, rol}); location.href='perfil.html'; };</script>
+</body></html>

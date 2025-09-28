@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reservar Experiencia</title>
+  <link href="assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="topbar py-2">
+    <div class="container-fluid">
+      <div class="d-flex align-items-center gap-3">
+        <a href="index.html" class="fw-bold d-flex align-items-center gap-2" style="color:#2fbf71"><span class="fs-4">🕊️</span> <span>AviTurismo Nicaragua</span></a>
+        <form class="flex-grow-1 d-none d-md-block" onsubmit="return false;">
+          <input id="topSearch" class="form-control" placeholder="Buscar aves, reservas o guías...">
+        </form>
+        <a class="btn btn-success" href="reservar.html">Observación</a>
+        <a class="d-flex align-items-center" href="perfil.html">
+          <div class="rounded" style="background:#dff4e9;width:36px;height:36px;display:flex;align-items:center;justify-content:center">CM</div>
+          <span class="ms-2 small" id="userBadge">Invitado</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <aside class="col-lg-2 col-md-3 sidebar">
+        <nav class="nav flex-column gap-1">
+          <a class="nav-link" href="index.html">🏠 Inicio</a>
+          <a class="nav-link" href="catalogo.html">🦜 Catálogo de Aves</a>
+          <a class="nav-link" href="reservas.html">🏞️ Reservas Naturales</a>
+          <a class="nav-link" href="calendario.html">🗓️ Calendario de Eventos</a>
+          <a class="nav-link" href="reservar.html">🧭 Reservar Visitas</a>
+          <a class="nav-link" href="educativo.html">📘 Educación y Conservación</a>
+          <a class="nav-link" href="mapa.html">🗺️ Mapa Interactivo</a>
+          <a class="nav-link" href="perfil.html">👤 Mi Perfil</a>
+          <a class="nav-link" href="login.html">🔒 Cerrar Sesión</a>
+        </nav>
+      </aside>
+      <main class="col-lg-10 col-md-9 p-3">
+
+<h2>Reserva tu Experiencia de Aviturismo</h2>
+<div class="row">
+  <div class="col-lg-8">
+    <h5 class="mt-3">1. Selecciona una Reserva Natural</h5>
+    <div id="selReservas" class="row g-3"></div>
+
+    <h5 class="mt-4">2. Selecciona Fechas y Número de Personas</h5>
+    <div class="row g-3">
+      <div class="col-md-3"><label class="form-label">Fecha de inicio</label><input type="date" id="fInicio" class="form-control"></div>
+      <div class="col-md-3"><label class="form-label">Fecha de fin</label><input type="date" id="fFin" class="form-control"></div>
+      <div class="col-md-3"><label class="form-label">Núm. de adultos</label><select id="fAdultos" class="form-select"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+      <div class="col-md-3"><label class="form-label">Núm. de niños</label><select id="fNinos" class="form-select"><option>0</option><option>1</option><option>2</option><option>3</option></select></div>
+    </div>
+
+    <h5 class="mt-4">3. Selecciona un Guía Especializado</h5>
+    <div id="selGuias" class="vstack gap-2"></div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card p-3 position-sticky" style="top:1rem;"><h5>Resumen de Reserva</h5><div id="resumen" class="small"></div><hr><div class="d-grid"><button id="btnPagar" class="btn btn-brand">Confirmar y Pagar</button></div></div>
+  </div>
+</div>
+
+      </main>
+    </div>
+  </div>
+  <footer class="container-fluid"><div class="text-center small">© 2025 AviTurismo Nicaragua — Demo offline</div></footer>
+  <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/booking.js"></script>
+</body></html>
